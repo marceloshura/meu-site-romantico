@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import random
 import os
 
@@ -36,22 +36,37 @@ mensagens_especificas = {
     "me olha.jpg": "Seu sorriso quando vc me pegava te observando..."
 }
 
-@app.route("/")
-def home():
+# 🔁 Função reutilizável (boa prática)
+def escolher_conteudo():
     try:
         imagens = os.listdir("static")
-        imagens = [img for img in imagens if img.endswith(('.png', '.jpg', '.jpeg'))]
+        imagens = [img for img in imagens if img.lower().endswith(('.png', '.jpg', '.jpeg'))]
         imagem = random.choice(imagens) if imagens else None
     except:
         imagem = None
 
-    # 🔥 Se tiver mensagem específica, usa ela
     if imagem in mensagens_especificas:
         mensagem = mensagens_especificas[imagem]
     else:
         mensagem = random.choice(mensagens)
 
+    return imagem, mensagem
+
+# 🏠 Página principal
+@app.route("/")
+def home():
+    imagem, mensagem = escolher_conteudo()
     return render_template("index.html", mensagem=mensagem, imagem=imagem)
 
+# 🔄 Rota para trocar sem reload
+@app.route("/proxima")
+def proxima():
+    imagem, mensagem = escolher_conteudo()
+    return jsonify({
+        "imagem": imagem,
+        "mensagem": mensagem
+    })
+
+# 🚀 Rodar local
 if __name__ == "__main__":
     app.run(debug=True)

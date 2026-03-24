@@ -56,15 +56,10 @@
 
 <div class="container">
 
-    {% if imagem %}
-        <img src="{{ url_for('static', filename=imagem) }}">
-    {% else %}
-        <p>Imagem não encontrada 😢</p>
-    {% endif %}
+    <img id="foto" src="{{ url_for('static', filename=imagem) }}">
+    <h1 id="mensagem">{{ mensagem }}</h1>
 
-    <h1>{{ mensagem }}</h1>
-
-    <button onclick="location.reload()">Ver outra ❤️</button>
+    <button onclick="proxima()">Ver outra ❤️</button>
 
     <!-- 🎵 Música -->
     <audio id="musica" loop>
@@ -73,12 +68,22 @@
 
 </div>
 
-<!-- 🎵 Script que toca música no primeiro clique -->
 <script>
+// 🎵 toca música no primeiro clique
 document.body.addEventListener("click", function () {
     const audio = document.getElementById("musica");
     audio.play();
 }, { once: true });
+
+// 🔄 troca conteúdo sem recarregar
+function proxima() {
+    fetch("/proxima")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("foto").src = "/static/" + data.imagem;
+            document.getElementById("mensagem").innerText = data.mensagem;
+        });
+}
 </script>
 
 </body>
