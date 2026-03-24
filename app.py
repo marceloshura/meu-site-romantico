@@ -5,11 +5,14 @@ import os
 app = Flask(__name__)
 
 mensagens = [
-    "Você é a melhor parte do meu dia ❤️",
-    "Penso em você o tempo todo",
-    "Seu sorriso muda tudo",
-    "Saudades de você",
-    "Você é incrível"
+    "Você é sempre a melhor parte do meu dia, K ❤️",
+    "Você é a mulher da minha vida, Dona K",
+    "Penso em você todos os dias...",
+    "Eu escolheria a Karla R.P. mil vezes em mil vidas",
+    "Seu sorriso e sua risada são as melhores coisas do muuundo",
+    "Você é o Jardim mais lindo do mundo...",
+    "Saudade que não cabe no peito",
+    "Você é a pessoa mais incrível de todo o mundo, K"
 ]
 
 @app.route("/")
