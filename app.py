@@ -16,8 +16,12 @@ mensagens = [
 def home():
     mensagem = random.choice(mensagens)
 
-    imagens = os.listdir("static")
-    imagem = random.choice(imagens)
+    try:
+        imagens = os.listdir("static")
+        imagens = [img for img in imagens if img.endswith(('.png', '.jpg', '.jpeg'))]
+        imagem = random.choice(imagens) if imagens else None
+    except:
+        imagem = None
 
     return render_template("index.html", mensagem=mensagem, imagem=imagem)
 
