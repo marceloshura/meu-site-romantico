@@ -4,6 +4,7 @@ import os
 
 app = Flask(__name__)
 
+# 🔥 Mensagens gerais (para fotos comuns)
 mensagens = [
     "Você é, sempre, a melhor parte do meu dia, K ❤️",
     "Você é a mulher da minha vida, Dona K",
@@ -18,8 +19,8 @@ mensagens = [
     "Dona K, eu ainda te amo...",
     "Quando você melhorar, sai comigo?",
     "Eu queria tomar um banho de chuva contigo, K",
-    "Deixa eu fazer as coisas certas dessa vez..? ",
-    "saudades do seu jeito de Ioda...xD ",
+    "Deixa eu fazer as coisas certas dessa vez..?",
+    "saudades do seu jeito de Ioda...xD",
     "quem ve essas fotos nem imagina a mente do palhaço...",
     "Em 1000 vidas, eu escolheria a Karla em todas elas...",
     "Seu sorriso e sua risada são as melhores coisas do muuundo",
@@ -28,16 +29,27 @@ mensagens = [
     "Você é a pessoa mais incrível de todo o mundo, K"
 ]
 
+# 💌 Mensagens específicas por imagem
+mensagens_especificas = {
+    "casamento.jpg": "e eu nem sabia que esse era um dos dias mais felizes da minha vida...",
+    "aniversario.jpg": "Eu pagaria rios de dinheiro para voltar nesse dia, nesse momento...",
+    "me olha.jpg": "Seu sorriso quando vc me pegava te observando..."
+}
+
 @app.route("/")
 def home():
-    mensagem = random.choice(mensagens)
-
     try:
         imagens = os.listdir("static")
         imagens = [img for img in imagens if img.endswith(('.png', '.jpg', '.jpeg'))]
         imagem = random.choice(imagens) if imagens else None
     except:
         imagem = None
+
+    # 🔥 Se tiver mensagem específica, usa ela
+    if imagem in mensagens_especificas:
+        mensagem = mensagens_especificas[imagem]
+    else:
+        mensagem = random.choice(mensagens)
 
     return render_template("index.html", mensagem=mensagem, imagem=imagem)
 
